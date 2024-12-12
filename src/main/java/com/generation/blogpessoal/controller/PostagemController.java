@@ -56,7 +56,7 @@ public class PostagemController {
 	@PostMapping
 	public ResponseEntity<Postagem> post(@Valid @RequestBody Postagem postagem){
 		
-		if(postagemRepository.existsById(postagem.getTema().getId())) {
+		if(temaRepository.existsById(postagem.getTema().getId())) { //alterado p temaRepository
 			return ResponseEntity.status(HttpStatus.CREATED) //Retorno status HTTP.
 					.body(postagemRepository.save(postagem)); //Adicionando ao corpo da requição a postagem
 		}
@@ -72,6 +72,7 @@ public class PostagemController {
 			if(temaRepository.existsById(postagem.getTema().getId()))
 				return ResponseEntity.status(HttpStatus.OK)
 						.body(postagemRepository.save(postagem));
+			
 		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Tema não existente!", null);		
 		}
 

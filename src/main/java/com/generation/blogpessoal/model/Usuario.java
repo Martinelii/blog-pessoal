@@ -20,28 +20,38 @@ import jakarta.validation.constraints.Size;
 @Table(name = "tb_usuarios")
 public class Usuario {
 
-	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY) 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
-	
+
 	@NotBlank(message = "Nome é Obrigatorio!!")
 	private String nome;
-	
-	@NotBlank (message = "Atributo Usuario é Obrigatorio!!")
-	@Email  (message = "Atributo Usuario deve ser um Email  Valido!!") //Validação do Formato de email
+
+	@NotBlank(message = "Atributo Usuario é Obrigatorio!!")
+	@Email(message = "Atributo Usuario deve ser um Email  Valido!!") // Validação do Formato de email
 	private String usuario;
-	
-	@NotBlank (message = "Atributo Senha é Obrigatorio!!")
-	@Size (min = 8, message = "A senha deve conter no minimo 8 caracteres!!")
+
+	@NotBlank(message = "Atributo Senha é Obrigatorio!!")
+	@Size(min = 8, message = "A senha deve conter no minimo 8 caracteres!!")
 	private String senha;
-	
+
 	@Size(max = 5000, message = "O link da foto não pode ser maior que 5000 caracteres")
 	private String foto;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario", cascade = CascadeType.REMOVE)
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
+
+	public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+		this.Id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+
+	public Usuario() {
+	}
 
 	public Long getId() {
 		return Id;
@@ -90,6 +100,5 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
-	
-	
+
 }
